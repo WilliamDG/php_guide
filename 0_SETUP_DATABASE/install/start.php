@@ -80,6 +80,7 @@
 		lastname VARCHAR(30) NOT NULL,
 		email VARCHAR(30) UNIQUE NOT NULL,
 		password VARCHAR(60) NOT NULL,
+		permissions int,
 		PRIMARY KEY (idUser)
 	)
 	";
@@ -119,12 +120,12 @@
 	
 	$sql = "
 	INSERT INTO 
-		Users(firstname, lastname, email, password)
+		Users(firstname, lastname, email, password, permissions)
 	VALUES 
-		('Mario', 'Rossi', 'mario.rossi@mail.com', 'ciao'),
-		('Giuseppe', 'Verdi', 'giuseppe.verdi@mail.com', 'ciao'),
-		('Fabio', 'Marchesi', 'fabio.marchesi@mail.com', 'ciao'),
-		('Beata', 'Bianchi', 'beata.bianchi@mail.com', 'ciao')
+		('Mario', 'Rossi', 'mario.rossi@mail.com', 'ciao', NULL),
+		('Giuseppe', 'Verdi', 'giuseppe.verdi@mail.com', 'ciao', 12),
+		('Fabio', 'Marchesi', 'fabio.marchesi@mail.com', 'ciao', 7),
+		('Beata', 'Bianchi', 'beata.bianchi@mail.com', 'ciao', 15)
 	";
 	
 	

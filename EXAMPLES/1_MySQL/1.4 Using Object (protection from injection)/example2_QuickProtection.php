@@ -16,9 +16,11 @@
 
 	 		if(!isset($_POST["name"]) || $_POST["name"]==""){	//if here $_POST["name"]==""   --> use elseif
 				echo "Search user!";
-				echo "<br><br><br>";
-				//$testString = "Mario' OR '1' = '1";		//to be dysplayed need -->  Third-tier quote: \" or Fourth-tier quote: &quot;
-				$testString = "Mario&apos; OR &apos;1&apos; = &apos;1";
+				echo "<br><br><br>";						
+				//$testString = "Mario' OR '1' = '1";
+				//$txt = sprintf('Use this to test the Injection: <input type="text" value="%s" id="myInput">', $testString);
+				//echo $txt;
+				$testString = "Mario&apos; OR &apos;1&apos; = &apos;1";	//to be dysplayed need -->  Third-tier quote: \" or Fourth-tier quote: &quot;
 				echo "Use this to test the Injection: <input type='text' value='"; echo $testString; echo "' id='myInput'>";
 				echo "<button onclick='copyToClipboard()'>Copy to Clipboard</button>";
 				echo "<br>";

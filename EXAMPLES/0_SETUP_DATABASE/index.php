@@ -5,13 +5,13 @@
 
 		
 		<?php
-			include("config.php");
-			$configs = require('config.php');
+			include_once("config.php");
+			
 			
 			
 		
 			if (file_exists("install/")) {
-				include("install/start.php");
+				include_once("install/start.php");
 			}
 			else {
 				echo "The folder install does not exists!";

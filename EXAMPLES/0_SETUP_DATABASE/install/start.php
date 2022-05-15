@@ -1,10 +1,6 @@
 <?php
-	//	classe DB
-	//	https://codeshack.io/super-fast-php-mysql-database-class/
-	
-	
-	
 
+	
 	
 	
 	$createTables = false;
@@ -12,13 +8,13 @@
 	
 	
 	//Create DB if not exist
-	$conn = new mysqli($configs->{'host'}, $configs->{'username'}, $configs->{'password'});
+	$conn = new mysqli(DB_HOST, DB_USER, DB_PASS);
 	if ($conn->connect_error) {
 		die("Connection failed: " . $conn->connect_error);
 	} 
 
 
-	$sql = "CREATE DATABASE IF NOT EXISTS ". $configs->{'database'} . ";";
+	$sql = "CREATE DATABASE IF NOT EXISTS ". DB_NAME . ";";
 	if ($conn->query($sql)) {
 		if ($conn->warning_count) { 
 			if ($result = $conn->query("SHOW WARNINGS")) {
@@ -61,10 +57,10 @@
 		
 	
 	$conn = new mysqli(
-	$configs->{'host'}, 
-	$configs->{'username'}, 
-	$configs->{'password'},
-	$configs->{'database'}
+		DB_HOST, 
+		DB_USER, 
+		DB_PASS,
+		DB_NAME
 	);
 	if ($conn->connect_error) {
 	  die("Connection failed: " . $conn->connect_error);
@@ -87,7 +83,7 @@
 	
 	
 	if ($conn->query($sql) === TRUE) {
-		echo "Table MyGuests created successfully";
+		echo "Table Users created successfully";
 	} 
 	else {
 		echo "Error creating table: " . $conn->error;
@@ -105,10 +101,10 @@
 	
 	//Insert Data
 	$conn = new mysqli(
-	$configs->{'host'}, 
-	$configs->{'username'}, 
-	$configs->{'password'},
-	$configs->{'database'}
+		DB_HOST, 
+		DB_USER, 
+		DB_PASS,
+		DB_NAME
 	);
 	if ($conn->connect_error) {
 	  die("Connection failed: " . $conn->connect_error);
@@ -130,7 +126,7 @@
 	
 	
 	if ($conn->query($sql) === TRUE) {
-		echo "New record created successfully";
+		echo "New records added successfully";
 	} 
 	else {
 		echo "Error: " . $sql . "<br>" . $conn->error;

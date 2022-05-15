@@ -5,7 +5,7 @@
 	include_once('config.php');
 	require_once('Database.php');
 	
-	$GLOBALS['db'] = new Database(DB_HOST, DB_USER, DB_PASS, DB_NAME, "", false);
+	$GLOBALS['db'] = new Database(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 	
 	$GLOBALS['db']->open();
 

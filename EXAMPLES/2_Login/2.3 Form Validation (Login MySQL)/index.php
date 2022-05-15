@@ -19,8 +19,7 @@
 
 		if ($_SERVER["REQUEST_METHOD"] == "POST") {  
 		
-		  
-		  
+
 
 			
 			if (empty($_POST["email"])) {
@@ -43,22 +42,41 @@
 			
 			if($email != "" && $password != "" && $emailErr == "" && $passwordErr == ""){
 	
-				//SQL
-				$servername = "localhost";
-				$username = "root";
-				$dbpw = "";
-				$dbname = "php_guide";
+				include_once('config.php');
+				require_once('Database.php');
 
-				// Create connection
-				$conn = new mysqli($servername, $username, $dbpw, $dbname);
-				// Check connection
-				if ($conn->connect_error) {
-				  die("Connection failed: " . $conn->connect_error);
-				}
-
+				$GLOBALS['db'] = new Database(DB_HOST, DB_USER, DB_PASS, DB_NAME);	
+				$GLOBALS['db']->open();
 				$sql = "SELECT * FROM Users WHERE email = '" . $email ."';";
-				$result = $conn->query($sql);
+				$GLOBALS['db']->query($sql);
+
+				if($GLOBALS['db']->getNumRows() <= 0){
+					$loginErr = "This mail does not exist!";	//This user is not registered here
+				}
+				else if($GLOBALS['db']->getNumRows() > 1){
+					$loginErr = "More then 1 results";			//Should not be there  (email UNIQUE)
+				}
+				else{			//$GLOBALS['db']->getNumRows() == 1
+						
+					$rows = $GLOBALS['db']->resultSet();
+
+
+					foreach ($rows as $row) {
+						if($password == $row["password"]){
+							$login = true;
+							echo "Benvenuto: " . $row["firstname"] . " " . $row["lastname"];
+						}	
+						else{
+							$loginErr = "Password is not correct";
+						}
+					}
+				}
 				
+				
+				$GLOBALS['db']->close();
+
+				/*
+				$result = $GLOBALS['db']->query($sql);
 				if($result){		
 					if ($result->num_rows == 1) {
 					  $account = $result->fetch_assoc();
@@ -71,8 +89,8 @@
 					  }
 	
 					} 
-					else if($result->num_rows == 0)  {		//This user is not registered here
-					  $loginErr = "This mail does not exist!";
+					else if($result->num_rows == 0)  {		
+					  $loginErr = "This mail does not exist!";	//This user is not registered here
 					}
 					else{
 						echo "More then 1 results";			//Should not be there  (email UNIQUE)
@@ -81,7 +99,9 @@
 				else{
 					echo "0 results";
 				}
-				$conn->close();
+				*/
+
+
 			
 			}
 			
@@ -115,7 +135,7 @@
 	<?php
 		}
 		
-		echo $loginErr;
+		echo $loginErr;		//print the variable here to be shown under the form
 	?>
 
 

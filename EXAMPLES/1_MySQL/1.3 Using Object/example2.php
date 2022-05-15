@@ -5,17 +5,19 @@
 	include_once('config.php');
 	require_once('Database.php');
 	
-	$GLOBALS['db'] = new Database(DB_HOST, DB_USER, DB_PASS, DB_NAME, "", false);
+	$GLOBALS['db'] = new Database(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 	
 	$GLOBALS['db']->open();
 
-	$GLOBALS['db']->query("SELECT * FROM Usersz WHERE firstname = 'Mario'");
+	$GLOBALS['db']->query("SELECT * FROM Users WHERE firstname = 'Mario'");
 	//$GLOBALS['db']->query("SELECT * FROM Users", true);
 	
 	
-	//get qery Data in array
+	
 	if($GLOBALS['db']->getNumRows() <= 0)
 		die("No results");
+		
+	//get qery Data in array
 	$rows = $GLOBALS['db']->resultSet();
 	
 	

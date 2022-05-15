@@ -6,7 +6,8 @@
 		private $username     	= ""; 	//database login name
 		private $password     	= ""; 	//database login password
 		private $database 		= ""; 	//database name
-		private $port			= 3306;	//database port
+		private $port;					//database port
+		private $socket			= "";	//database socket
 
 		private $conn;
 		public $result;
@@ -18,19 +19,26 @@
 		* @param string $username - the username of your database
 		* @param string $password - the password of your database
 		* @param string $database - your database name
-		* @param integer $port - the port of your database
+		* @param integer $port - the port of your database (default 3306)
+		* @param string $socket - the socket or named pipe to be used
 		* @param boolean $autoconnect - to auto connect to the database after settings connection credentials
 		*/
-		public function __construct($servername, $username, $password, $database, $port = 3306, $autoconnect = true)
+		public function __construct($servername, $username, $password, $database, $port = 3306, $socket = "")
 		{
-			$this->servername=$servername;
-			$this->username=$username;
-			$this->password=$password;
-			$this->database=$database;
-			$this->port=$port;
+			$this->servername = $servername;
+			$this->username = $username;
+			$this->password = $password;
+			$this->database = $database;
+			if($port === null)
+				$this->port = 3306;
+			else
+				$this->port = $port;
 			
-			if($autoconnect) 
-				$this->connect();
+			if($socket === null)
+				$this->socket = "";
+			else
+				$this->socket = $socket;
+	
 		}
 		
 		public function __destruct()
@@ -59,11 +67,13 @@
 		*/
 		public function open()
 		{
-			$this->conn = new mysqli($this->servername, $this->username, $this->password, $this->database);
+			$this->conn = new mysqli($this->servername, $this->username, $this->password, $this->database, $this->port, $this->socket);
+
+			
 
 			// Check connection
 			if ($this->conn->connect_error) {
-			  die("Connection failed: " . $conn->connect_error);
+			  die("Connection failed: " . $this->conn->connect_error);
 			}
 			//echo "Connected successfully";
 			return true;
@@ -117,7 +127,7 @@
 			
 			if(!$this->result){
 				$this->result = NULL;
-				echo "Query result NULL";
+				echo "Query result NULL<br><br>";
 			}
 				
 			return $this->result;
